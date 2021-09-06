@@ -304,7 +304,7 @@
                 ${modifiedAt}
             </div>
             <div id="${id}-username" class="username">
-                ${username}
+                ${username} <!-- 읽기 모드로 가 -->
             </div>
         </div>
         <!-- contents 조회/수정 영역-->
@@ -312,7 +312,7 @@
             <div id="${id}-contents" class="text">
                 ${contents}
             </div>
-            <div id="${id}-editarea" class="edit">
+            <div id="${id}-editarea" class="edit"> <!--  -->
                 <textarea id="${id}-textarea" class="te-edit" name="" id="" cols="30" rows="5"></textarea>
             </div>
         </div>
@@ -356,14 +356,39 @@
         // 메모를 수정합니다.
         function submitEdit(id) {
             // 1. 작성 대상 메모의 username과 contents 를 확인합니다.
+            let username = $(`#${id}-username`).text().trim(); // 읽기모드로 되어 있는 텍스트는 .text()로 받아오기
+            let contents = $(`#${id}-textarea`).val().trim(); // 수정/등록처럼 사용자가 입력한 값은 .val()로 받아오기
             // 2. 작성한 메모가 올바른지 isValidContents 함수를 통해 확인합니다.
+            if (isValidContents(contents) == false) {
+                return;
+            }
             // 3. 전달할 data JSON으로 만듭니다.
+            let data = {'username': username, 'contents': contents};
             // 4. PUT /api/memos/{id} 에 data를 전달합니다.
+            $.ajax({
+                type: "PUT",
+                url: `/api/memos/${id}`, <!--백틱으로 -->
+                contentType: "application/json", <!--이게 있어야 문자열인 것을 스프링이 알 수 있다. 없으면 문자열인줄 안다. -->
+                data: JSON.stringify(data),
+                success: function (response) {
+                    alert("변경이 완료되었습니다.");
+                    console.log(response);
+                    window.location.reload();
+                }
+            })
         }
 
         // 메모를 삭제합니다.
         function deleteOne(id) {
             // 1. DELETE /api/memos/{id} 에 요청해서 메모를 삭제합니다.
+            $.ajax({
+                type: "DELETE",
+                url: `/api/memos/${id}`,
+                success: function () {
+                    alert("삭제가 완료되었습니다.");
+                    window.location.reload();
+                }
+            })
         }
     </script>
 </head>
