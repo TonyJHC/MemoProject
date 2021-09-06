@@ -258,9 +258,9 @@
             $(`#${id}-contents`).show();
             $(`#${id}-edit`).show();
         }
+
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         // 여기서부터 코드를 작성해주시면 됩니다.
-
 
 
         $(document).ready(function () {
@@ -277,15 +277,54 @@
                 type: 'GET',
                 url: '/api/memos',
                 success: function (response) {
-                    console.log(response);
+                    // console.log(response);
+                    for (let i = 0; i < response.length; i++) { // GET으로 받아온 데이터들을 반복문으로 꺼내서 addHTML에 정보 넘겨줌
+                        let memo = response[i]; // 하나씩 꺼내서
+                        // 데이터 추출
+                        let id = memo.id;
+                        let username = memo.username;
+                        let contents = memo.contents;
+                        let modifiedAt = memo.modifiedAt; // 수정 시간
+                        // HTML에 반영해주기
+                        addHTML(id, username, contents, modifiedAt); // HTML에 포함 시키기
+
+                    }
                 }
             })
         }
 
+
         // 메모 하나를 HTML로 만들어서 body 태그 내 원하는 곳에 붙입니다.
         function addHTML(id, username, contents, modifiedAt) {
             // 1. HTML 태그를 만듭니다.
+            let tempHtml = `<div class="card">
+        <!-- date/username 영역 -->
+        <div class="metadata">
+            <div class="date">
+                ${modifiedAt}
+            </div>
+            <div id="${id}-username" class="username">
+                ${username}
+            </div>
+        </div>
+        <!-- contents 조회/수정 영역-->
+        <div class="contents">
+            <div id="${id}-contents" class="text">
+                ${contents}
+            </div>
+            <div id="${id}-editarea" class="edit">
+                <textarea id="${id}-textarea" class="te-edit" name="" id="" cols="30" rows="5"></textarea>
+            </div>
+        </div>
+        <!-- 버튼 영역-->
+        <div class="footer">
+            <img id="${id}-edit" class="icon-start-edit" src="images/edit.png" alt="" onclick="editPost('${id}')">
+            <img id="${id}-delete" class="icon-delete" src="images/delete.png" alt="" onclick="deleteOne('${id}')">
+            <img id="${id}-submit" class="icon-end-edit" src="images/done.png" alt="" onclick="submitEdit('${id}')">
+        </div>
+    </div>`;
             // 2. #cards-box 에 HTML을 붙인다.
+            $('#cards-box').append(tempHtml);
         }
 
         // 메모를 생성합니다.
@@ -312,6 +351,7 @@
                 }
             });
         }
+
 
         // 메모를 수정합니다.
         function submitEdit(id) {
