@@ -15,7 +15,7 @@ import java.time.LocalDateTime;
 @EntityListeners(AuditingEntityListener.class) // 생성/변경 시간을 자동으로 업데이트합니다.
 // EntityListeners : Timestamped를 상속한 녀석인 Memo의 소리를 항상 듣는다 (지켜본다)
 // AuditingEntityListener : 변화가 있을때마다 자동으로 생성 해주겠다.
-public abstract class Timestamped { // 추상 클래스란 ? new Timestamped라고 할 수 없음. 상속만 가능 ! 빵틀 new로 못만든다.
+public abstract class Timestamped { // 추상 클래스란 ? 상속을 강제한다 : new Timestamped라고 할 수 없음. 상속만 가능 ! 빵틀 new로 못만든다.
 
     // ** 중요 !  Getter가 있어야 private으로 선언된 변수를 사용할 수 있기에 꼭 쓰기 !!
 
