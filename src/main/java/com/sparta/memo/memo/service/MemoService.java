@@ -12,6 +12,7 @@ import javax.transaction.Transactional;
 @Service
 public class MemoService {
 
+    // final로 선언되면 값 수정 x, 값을 넣는 방법은 1) 생성자로 2) 선언과 동시에
     private final MemoRepository memoRepository; // 1. Spring에게 꼭 받아야 되는거라고 말해줌
 
     @Transactional // 3. 해당 메소드가 호출될 때 바뀐 내용을 DB에 반영을 해줘야되 !

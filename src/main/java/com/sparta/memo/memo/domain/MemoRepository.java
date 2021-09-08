@@ -9,9 +9,10 @@ import java.util.List;
 // JpaRepository를 상속 받음으로써 save, findByAll등 이미 만들어진 메소드들을 사용할 수 있음
 // 이미 만들어진 놈들을 어디다 쓸거냐
 public interface MemoRepository extends JpaRepository<Memo, Long> { // 그 대상은 Memo라는 녀석이고 id값은 Long형인 녀석에게 가져다가 쓸거다
+    // 타임라인 서비스가 불러오는 메모 목록의 새간을, 조회 시간으로부터 24시간 이내로 변경
     List<Memo> findAllByModifiedAtBetweenOrderByModifiedAtDesc(LocalDateTime start, LocalDateTime end); // 중요함 !! 해당 링크로 가서 꼭 확인해보기
 
-      // https://docs.spring.io/spring-data/jpa/docs/current/reference/html/#jpa.query-methods
+    // https://docs.spring.io/spring-data/jpa/docs/current/reference/html/#jpa.query-methods
 
     /*
     findAll : 다 찾아라
