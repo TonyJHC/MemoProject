@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.List;
+import java.util.Optional;
 
 @RestController // --> new MemoController 를 Spring이 자동으로 해줌
 @RequiredArgsConstructor // 2. final 선언시 꼭 필요 --> new ~ 안해줘도됨. (생성자 자동으로 만들어 준다 )
@@ -17,12 +18,13 @@ public class MemoController {
 
     private final MemoRepository memoRepository; // 등록 ,조회 ,삭제 , 수정 할시 repository 필요함
     private final MemoService memoService;  // 업데이트가 필요하니까 service가 필요함
+    private Memo save;
 
 
     @PostMapping("/api/memos")
     public Memo createMemo(@RequestBody MemoRequestDto requestDto) {
         Memo memo = new Memo(requestDto);
-        return memoRepository.save(memo);
+        return save;
     }
 
     @GetMapping("/api/memos")
@@ -31,6 +33,12 @@ public class MemoController {
         LocalDateTime end = LocalDateTime.now(); // 현재 시간
         LocalDateTime start = LocalDateTime.now().minusDays(1); // 하루전 시간
         return memoRepository.findAllByModifiedAtBetweenOrderByModifiedAtDesc(start, end);
+    }
+
+    @GetMapping("/api/memos/{id}")
+    public Optional<Memo> readOneMemo(@PathVariable Long id) {
+        Optional<Memo> memo = memoRepository.findById(id);
+        return memo;
     }
 
     @PutMapping("/api/memos/{id}")
@@ -44,4 +52,5 @@ public class MemoController {
         memoRepository.deleteById(id);
         return id;
     }
+
 }
