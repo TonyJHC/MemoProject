@@ -1,9 +1,9 @@
 package com.sparta.memo.memo.domain;
 
+import com.sparta.memo.memo.domain.Entity.Memo;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.util.List;
 
 // JpaRepository를 상속 받음으로써 save, findByAll등 이미 만들어진 메소드들을 사용할 수 있음

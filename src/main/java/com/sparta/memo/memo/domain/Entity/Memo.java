@@ -1,5 +1,7 @@
-package com.sparta.memo.memo.domain;
+package com.sparta.memo.memo.domain.Entity;
 
+import com.sparta.memo.memo.domain.Dto.MemoRequestDto;
+import com.sparta.memo.memo.domain.Timestamped;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
